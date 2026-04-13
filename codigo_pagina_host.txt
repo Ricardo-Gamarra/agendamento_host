@@ -1,0 +1,70 @@
+#calendario > div > table > tbody > tr:nth-child(1) > td:nth-child(4) > a
+<td class=" " data-handler="selectDay" data-event="click" data-month="3" data-year="2026"><a class="ui-state-default" href="#">1</a></td>
+<td class=" " data-handler="selectDay" data-event="click" data-month="3" data-year="2026"><a class="diaCapturado" href="#">2</a></td>
+
+
+async function executarTudo() {
+    console.log('--- Iniciando Processo de Captura ---');
+
+    // 1. Loop de insistência para os dias
+    for (let i = 0; i < 22; i++) {
+        const elementos = document.querySelectorAll('.ui-state-default:not(.diaCapturado)');
+        
+        if (elementos.length === 0) {
+            console.log(`Iteração ${i}: Nenhum dia restante para clicar.`);
+        } else {
+            elementos.forEach(el => {
+                el.click();
+            });
+            console.log(`Iteração ${i}: Clicado em ${elementos.length} elementos.`);
+        }
+
+        // Tempo para o calendário se reconstruir
+        await new Promise(resolve => setTimeout(resolve, 300));
+    }
+
+    console.log('✅ Calendário finalizado');
+
+    // Aguarda antes de interagir com o combo
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // 2. Seleção da Atividade
+    const combo = document.querySelector('#cmbActividades');
+    if (!combo) {
+        console.error('❌ Elemento #cmbActividades não encontrado');
+    } else {
+        combo.click();
+        combo.selectedIndex = 34; // Ajuste o índice se necessário
+        combo.dispatchEvent(new Event('change', { bubbles: true }));
+        console.log('✅ Atividade selecionada');
+    }
+
+    // Aguarda antes de clicar no botão OK
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // 3. Botão OK (Confirmação)
+    const btnOk = document.querySelector('#btnOk');
+    if (!btnOk) {
+        console.error('❌ Botão #btnOk não encontrado');
+    } else {
+        btnOk.click();
+        console.log('✅ Botão OK clicado com sucesso');
+    }
+
+    // Aguarda o processamento do sistema
+    await new Promise(resolve => setTimeout(resolve, 1500));
+
+    // 4. Logout
+    // Tenta encontrar o botão de logout por variáveis comuns ou IDs
+    const btnSair = window.buttonLogout || document.querySelector('#btnLogout') || document.querySelector('.logout');
+    
+    if (btnSair) {
+        btnSair.click();
+        console.log('✅ Saída da página executada com sucesso');
+    } else {
+        console.warn('⚠️ Botão de logout não encontrado automaticamente.');
+    }
+}
+
+// Executa a função
+executarTudo();
