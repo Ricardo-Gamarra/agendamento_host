@@ -3,13 +3,15 @@ from playwright.sync_api import sync_playwright
 def testar_login_sync(usuario, senha):
     with sync_playwright() as p:
         # headless=False para você ver o robô trabalhando
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=False)
         page = browser.new_page()
         try:
             page.goto("https://host.globalhitss.com/", timeout=60000)
             page.locator("#UserName").fill(usuario)
             page.locator("#Password").fill(senha)
             page.get_by_role("button", name="Iniciar Sesión").click()
+            
+            page.get_by_role("row", name="Menu HitssId deazevedor").get_by_role("link").click()
 
             # Seletor de erro que você identificou
             selector_erro = "div.ui-dialog.ui-widget-content"
