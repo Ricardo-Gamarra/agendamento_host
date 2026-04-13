@@ -72,6 +72,22 @@ def main():
             }
         </style>
     """, unsafe_allow_html=True)
+
+    # --- CSS PARA OCULTAR MENU, FOOTER E AJUSTAR ABAS ---
+    st.markdown("""
+        <style>
+            /* Ocultar o menu superior (três linhas) e a barra de deploy */
+            #MainMenu {visibility: hidden;}
+            header {visibility: hidden;}
+            footer {visibility: hidden;}
+            
+            /* Mantém o estilo das abas que já tínhamos */
+            button[data-baseweb="tab"] p {
+                font-size: 20px !important;
+                font-weight: bold !important;
+            }
+        </style>
+    """, unsafe_allow_html=True)
     
     
     criar_tabela()
